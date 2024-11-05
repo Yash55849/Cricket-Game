@@ -1,0 +1,56 @@
+body{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.light-theme {
+  background-color: white;
+  color: black;
+}
+
+.dark-theme {
+  background-color: black;
+  color: white;
+}
+.choice:hover{
+  background-color: skyblue;
+}
+.choice:active{
+  background-color: lightgreen;
+}
+#theme{
+  position: relative;
+  left: 150px;
+  border-radius: 2px;
+  border: none;
+  
+}
+#reset{
+  margin-top: 30px;  
+}
+
+.images{
+  height: 70px;
+  mix-blend-mode:darken;
+ 
+}
+.btn{
+  height: 100px;
+  width: 100px;
+  background-color: white;
+}
+
+.btn:hover{
+  background-color: lightgreen;
+  animation: anime 0.5s forwards;
+}
+
+@keyframes anime {
+  from {height: 100px;
+  width: 100px;}
+  to{
+    height: 110px;
+    width: 110px;
+  }
+  
+}

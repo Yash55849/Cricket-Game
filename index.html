@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Game</title>
+  <link rel="stylesheet" href="cricket.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body id="container" class="light-theme">
+  <div >
+    <div><button id="theme"><span class="material-symbols-outlined" onclick="">contrast</span></button></div>
+
+    
+    <h1>Bat Ball Stump Game</h1>
+    <button class="btn">
+    <img class="images" src="images/02c4382e5d08daec77666410ddae3e6a-cricket-bat.webp" alt="Bat" onclick="
+    let comp_choice = computerChoice();
+    let result = getResult(comp_choice ,'bat');
+    alertResult(comp_choice, 'bat' , result);
+    
+  "></button>
+  <button class="btn">
+    <img class="images" src="images/images.jpg" alt="Ball" onclick="
+    comp_choice =  computerChoice();
+    result = getResult(comp_choice ,'ball');
+    alertResult(comp_choice, 'ball' , result);
+    
+  "></button>
+  <button class="btn">
+    <img class="images" src="images/images (1).jpg" alt="Stump" onclick="
+    comp_choice = computerChoice();
+    result = getResult(comp_choice ,'stump');
+    alertResult(comp_choice, 'stump' , result);
+    
+  "></button>
+ 
+  <h3 id="user-choice"></h3>
+  <h3 id="computer-choice"></h3>
+  <h3 id="result"></h3>
+  <h3 id="score"></h3>
+
+  <button id="reset" class="choice" onclick="
+  localStorage.clear();
+  resetResult();
+ // location.reload(); //it is used to reload the page onclick of the user button 
+  ">reset
+  </button>
+  </div>
+ 
+  
+
+  <script>
+    //object to update score of user how many time he won lost and tie
+    let scoreStr = localStorage.getItem("result");
+    let score;
+    resetResult(scoreStr);
+    function resetResult(scoreStr){
+      score = scoreStr ? JSON.parse(scoreStr) : {
+        Win:0,
+        Lost:0,
+        Draw:0,
+        };
+  
+      score.final = function(){ 
+        return `Score : Win: ${score.Win}   Lost: ${score.Lost}   Draw: ${score.Draw}`
+       }
+
+       alertResult();
+    }
+    
+    //theme change from light to dark
+    const themeButton = document.getElementById('theme');
+    const container = document.getElementById('container');
+    const savedTheme = localStorage.getItem("currentTheme");
+    if (savedTheme === "dark-theme") {
+      container.classList.remove("light-theme");
+      container.classList.add("dark-theme");
+    } else {
+      container.classList.remove("dark-theme");
+      container.classList.add("light-theme");
+    }
+
+    // Toggle theme and store in localStorage
+    themeButton.addEventListener("click", () => {
+      if (container.classList.contains("light-theme")) {
+        container.classList.remove("light-theme");
+        container.classList.add("dark-theme");
+        localStorage.setItem("currentTheme", "dark-theme");
+      } else {
+        container.classList.remove("dark-theme");
+        container.classList.add("light-theme");
+        localStorage.setItem("currentTheme", "light-theme");
+      }
+    });
+    //funtion to get computer choice
+    function computerChoice() {
+      let result;
+      let comp = Math.random() * 3;
+      if (comp <= 1) {
+        return 'bat';
+      } else if (comp <= 2) {
+        return 'ball';
+      } else {
+        return 'stump';
+      }
+
+    }
+    //function to get final result based on user choice and computer choice
+    function getResult(comp, user) {
+      if (user === 'bat') {
+        if (comp === 'ball') {
+          score.Win++;
+          
+          return 'user won';
+        } else if (comp === 'stump') {
+          score.Lost++;
+          
+          return 'computer won';
+        } else if (comp === 'bat') {
+          score.Draw++;
+          
+          return 'draw';
+        }
+      } else if (user === 'ball') {
+        if (comp_choice === 'ball') {
+          score.Draw++;
+          
+          return 'draw';
+        } else if (comp_choice === 'stump') {
+          score.Win++;
+          
+          return 'user win';
+        } else {
+          score.Lost++;
+          
+          return 'computer win';
+        }
+      } else {
+        if (comp_choice === 'ball') {
+          score.Lost++;
+          
+          return 'computer wins';
+        } else if (comp_choice === 'stump') {
+          score.Draw++;
+          
+          return 'Draw';
+        } else {
+          score.Win++;
+          
+          return 'user win';
+        }
+      }
+
+    }
+    
+    
+    //function to display result as alert to user
+    function alertResult(comp , user , getResult){
+      localStorage.setItem("result",JSON.stringify(score));
+      document.getElementById('user-choice').innerText = user ? `you have choosen : ${user} ` : " ";
+      document.getElementById('computer-choice').innerText = comp ? `computer has choosen : ${comp} `: " ";
+      document.getElementById('result').innerText= getResult ?` Result : ${getResult} ` : " ";
+      document.getElementById('score').innerText= score.final();
+
+      
+    }
+
+  
+  </script>
+</body>
+
+</html>
